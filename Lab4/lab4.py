@@ -1,34 +1,43 @@
-INF = 999
-n = int(input("Enter number of nodes: "))
+import copy
+inf = 999
 
-print("Enter adjacency matrix (use 999 for no direct link):")
+n = int(input("Enter the number of nodes: "))
+
 cost = []
-
 for i in range(n):
-    row = list(map(int, input().split()))
+    row = []
+    strow = input().split()
+    for num in strow:
+        row.append(int(num))
     cost.append(row)
 
-distance = [[cost[i][j] for j in range(n)] for i in range(n)]
-next_hop = [[j if cost[i][j] != INF and i != j else -1 for j in range(n)] for i in range(n)]
+distance = copy.deepcopy(cost)
+
+nexthop = []
+for i in range(n):
+    row = []
+    for j in range(n):
+        if cost[i][j] != inf and i != j:
+            row.append(j)
+        else:
+            row.append(-1)
+    nexthop.append(row)
 
 updated = True
 while updated:
     updated = False
     for i in range(n):
         for k in range(n):
-            if cost[i][k] != INF:
+            if cost[i][k] != inf:
                 for j in range(n):
                     if distance[i][j] > cost[i][k] + distance[k][j]:
                         distance[i][j] = cost[i][k] + distance[k][j]
-                        next_hop[i][j] = k
+                        nexthop[i][j] = k
                         updated = True
 
 for i in range(n):
-    print(f"\nRouting Table for Node {i}:")
-    print("Destination\tCost\tNext Hop")
+    print("\nTable of", i)
+    print("Destination\tCost\tNext hop")
     for j in range(n):
         if i != j:
-            print(f"{j}\t\t{distance[i][j]}\t{next_hop[i][j]}")
-
-
-            
+            print(f"{j}\t\t{distance[i][j]}\t{nexthop[i][j]}")
