@@ -9,8 +9,7 @@ for i in range(n):
     cost.append(row)
 
 distance = [[cost[i][j] for j in range(n)] for i in range(n)]
-next_hop = [[j if cost[i][j] != INF and i != j else -1 
-            for j in range(n)] for i in range(n)]
+next_hop = [[j if cost[i][j] != INF and i != j else -1 for j in range(n)] for i in range(n)]
 
 updated = True
 while updated:
